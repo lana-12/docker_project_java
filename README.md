@@ -33,7 +33,7 @@ Ce projet est une application Spring Boot qui interagit avec une base de donnée
 ### Lancer l'application
 1. Cloner le dépôt :
    ```bash
-   git clone <URL_DU_DEPOT>
+   git clone https://github.com/lana-12/docker_project_java.git
    cd projetSpringGr2
 
 2. Construire et démarrer les conteneurs:
