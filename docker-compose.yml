@@ -1,0 +1,44 @@
+version: '3.8'
+
+services:
+  mariadb:
+    image: mariadb:10.6
+    container_name: mariadb
+    environment:
+      - MARIADB_USER=root
+      - MARIADB_PASSWORD=
+      - MARIADB_DATABASE=projetgr2
+      - MARIADB_ALLOW_EMPTY_ROOT_PASSWORD=yes
+
+    ports:
+      - "3307:3306"
+    volumes:
+      - mariadb_data:/var/lib/mysql
+    networks:
+      - springboot-network
+
+  springboot-app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: springboot-app
+    ports:
+      - "8080:8080"
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:mariadb://mariadb:3306/projetgr2
+      - SPRING_DATASOURCE_USERNAME=root
+      - SPRING_DATASOURCE_PASSWORD=
+      - SPRING_JPA_HIBERNATE_DDL_AUTO=update
+    depends_on:
+      - mariadb
+    volumes:
+      - ./src/main/resources/data:/app/data
+    networks:
+      - springboot-network
+
+volumes:
+  mariadb_data:
+
+networks:
+  springboot-network:
+    driver: bridge
